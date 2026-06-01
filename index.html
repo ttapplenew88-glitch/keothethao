@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sportguide - Hỗ trợ nhân viên</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">SANJI - NE - SPORTS</p>
+          <h1>Hỗ Trợ Thể Thao</h1>
+        </div>
+        <div class="status-pill">
+          <span class="status-dot"></span>
+          Hỗ trợ CSKH tính vé cược
+        </div>
+      </header>
+
+      <nav class="tabs" aria-label="Chuyển khu vực">
+        <button class="tab-button active" type="button" data-tab="home">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 10.5 12 3l9 7.5" />
+            <path d="M5 10v10h14V10" />
+            <path d="M9 20v-6h6v6" />
+          </svg>
+          Tính Vé Cược
+        </button>
+        <button class="tab-button" type="button" data-tab="guide">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+            <path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z" />
+          </svg>
+          Hướng Dãn Thể Thao
+        </button>
+      </nav>
+
+      <section class="tab-panel active" id="homePanel">
+        <article class="panel calculator-panel">
+          <div class="panel-heading compact">
+            <div>
+              <p class="eyebrow">CSKH điền thông tin trận đấu hệ thống sẽ trả kết quả</p>
+              <h2>Tính Vé Cược</h2>
+            </div>
+          </div>
+
+          <div class="tool-layout">
+            <form class="bet-form" id="betForm">
+              <div class="input-grid top-fields">
+                <label>
+                  <span>Loại cược</span>
+                  <select id="betType"></select>
+                </label>
+                <label>
+                  <span>Tên / mã vé khách cung cấp</span>
+                  <input id="ticketName" type="text" value="vé cược" autocomplete="off" />
+                </label>
+              </div>
+
+              <div class="team-grid" id="matchTeamsFields">
+                <label>
+                  <span>Đội nhà</span>
+                  <input id="homeTeam" type="text" value="Everton" autocomplete="off" />
+                </label>
+                <label>
+                  <span>Đội khách</span>
+                  <input id="awayTeam" type="text" value="West Ham" autocomplete="off" />
+                </label>
+              </div>
+
+              <fieldset class="segmented compact-segmented timing-fields" id="timingFields" aria-label="Thời điểm cược">
+                <legend>Thời điểm cược</legend>
+                <label>
+                  <input type="radio" name="betTiming" value="prematch" checked />
+                  <span>Trước trận</span>
+                </label>
+                <label>
+                  <input type="radio" name="betTiming" value="live" />
+                  <span>Live</span>
+                </label>
+              </fieldset>
+
+              <div class="score-grid live-start hidden" id="liveStartFields">
+                <label>
+                  <span>Tỷ số đội nhà lúc đặt</span>
+                  <input id="startHomeScore" type="number" min="0" step="1" value="0" inputmode="numeric" />
+                </label>
+                <label>
+                  <span>Tỷ số đội khách lúc đặt</span>
+                  <input id="startAwayScore" type="number" min="0" step="1" value="0" inputmode="numeric" />
+                </label>
+              </div>
+
+              <div class="market-fields" data-market="handicap footballHandicap cornerHandicap cardHandicap basketballSpread tennisHandicap">
+                <label class="scope-field" data-scope-market="footballHandicap">
+                  <span>Phạm vi cược</span>
+                  <select id="handicapPeriod">
+                    <option value="Hiệp 1">Hiệp 1</option>
+                    <option value="Hiệp 2">Hiệp 2</option>
+                    <option value="Toàn trận" selected>Toàn trận</option>
+                    <option value="Thêm giờ">Thêm giờ</option>
+                  </select>
+                </label>
+                <div class="team-grid">
+                  <label>
+                    <span>Khách đặt đội</span>
+                    <select id="selectedTeam">
+                      <option value="home">Đội nhà</option>
+                      <option value="away">Đội khách</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Trạng thái kèo</span>
+                    <select id="handicapDirection">
+                      <option value="give">Đội phải chấp (-)</option>
+                      <option value="receive">Đội được chấp (+)</option>
+                    </select>
+                  </label>
+                </div>
+                <label>
+                  <span>Mốc chấp</span>
+                  <input id="handicapLine" type="number" min="0" step="0.25" value="0.75" inputmode="decimal" />
+                </label>
+              </div>
+
+              <div class="market-fields hidden" data-market="total footballTotal cornerTotal cardTotal basketballTotal tennisTotal">
+                <div class="team-grid">
+                  <label class="scope-field" data-scope-market="footballTotal">
+                    <span>Phạm vi cược</span>
+                    <select id="totalPeriod">
+                      <option value="Hiệp 1">Hiệp 1</option>
+                      <option value="Hiệp 2">Hiệp 2</option>
+                      <option value="Toàn trận" selected>Toàn trận</option>
+                      <option value="Thêm giờ">Thêm giờ</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Khách đặt</span>
+                    <select id="totalPick">
+                      <option value="over">Tài / Trên</option>
+                      <option value="under">Xỉu / Dưới</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Mốc tài xỉu</span>
+                    <input id="totalLine" type="number" min="0" step="0.25" value="2.5" inputmode="decimal" />
+                  </label>
+                </div>
+              </div>
+
+              <div class="market-fields hidden card-entry" data-market="cardTotal">
+                <p class="rule-note">
+                  Theo guide nội bộ: thẻ vàng = 1 điểm, đỏ trực tiếp = 2 điểm, đỏ do 2 thẻ vàng = 3 điểm tổng cộng.
+                </p>
+                <div class="card-team-block">
+                  <p class="field-title">Đội nhà</p>
+                  <div class="input-grid">
+                    <label>
+                      <span>Thẻ vàng riêng lẻ</span>
+                      <input id="homeYellowCards" type="number" min="0" step="1" value="1" inputmode="numeric" />
+                    </label>
+                    <label>
+                      <span>Đỏ trực tiếp</span>
+                      <input id="homeDirectRedCards" type="number" min="0" step="1" value="0" inputmode="numeric" />
+                    </label>
+                    <label>
+                      <span>Đỏ từ 2 thẻ vàng</span>
+                      <input id="homeSecondYellowRed" type="number" min="0" step="1" value="0" inputmode="numeric" />
+                    </label>
+                  </div>
+                </div>
+                <div class="card-team-block">
+                  <p class="field-title">Đội khách</p>
+                  <div class="input-grid">
+                    <label>
+                      <span>Thẻ vàng riêng lẻ</span>
+                      <input id="awayYellowCards" type="number" min="0" step="1" value="2" inputmode="numeric" />
+                    </label>
+                    <label>
+                      <span>Đỏ trực tiếp</span>
+                      <input id="awayDirectRedCards" type="number" min="0" step="1" value="0" inputmode="numeric" />
+                    </label>
+                    <label>
+                      <span>Đỏ từ 2 thẻ vàng</span>
+                      <input id="awaySecondYellowRed" type="number" min="0" step="1" value="0" inputmode="numeric" />
+                    </label>
+                  </div>
+                </div>
+                <p class="input-hint">Không nhập lại hai thẻ vàng thuộc tình huống “đỏ từ 2 thẻ vàng” vào ô thẻ vàng riêng lẻ.</p>
+              </div>
+
+              <div class="market-fields hidden" data-market="correctScore">
+                <div class="team-grid">
+                  <label>
+                    <span>Dự đoán đội nhà</span>
+                    <input id="exactHomeScore" type="number" min="0" step="1" value="2" inputmode="numeric" />
+                  </label>
+                  <label>
+                    <span>Dự đoán đội khách</span>
+                    <input id="exactAwayScore" type="number" min="0" step="1" value="1" inputmode="numeric" />
+                  </label>
+                </div>
+              </div>
+
+              <div class="market-fields hidden" data-market="halfFullTime">
+                <div class="team-grid">
+                  <label>
+                    <span>Khách chọn Hiệp 1</span>
+                    <select id="halfTimePick">
+                      <option value="home">Đội nhà thắng</option>
+                      <option value="draw">Hòa</option>
+                      <option value="away">Đội khách thắng</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Khách chọn Cả trận</span>
+                    <select id="fullTimePick">
+                      <option value="home">Đội nhà thắng</option>
+                      <option value="draw">Hòa</option>
+                      <option value="away">Đội khách thắng</option>
+                    </select>
+                  </label>
+                </div>
+                <div class="team-grid">
+                  <label>
+                    <span>Tỷ số đội nhà Hiệp 1</span>
+                    <input id="halfHomeScore" type="number" min="0" step="1" value="1" inputmode="numeric" />
+                  </label>
+                  <label>
+                    <span>Tỷ số đội khách Hiệp 1</span>
+                    <input id="halfAwayScore" type="number" min="0" step="1" value="0" inputmode="numeric" />
+                  </label>
+                </div>
+              </div>
+
+              <div class="market-fields hidden" data-market="timeBet">
+                <div class="team-grid">
+                  <label>
+                    <span>Loại cược thời gian</span>
+                    <select id="timeBetType">
+                      <option value="before">Có bàn trước/phút mốc</option>
+                      <option value="after">Bàn đầu tiên sau phút mốc</option>
+                      <option value="noGoal">Không có bàn thắng</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Mốc phút</span>
+                    <input id="timeLine" type="number" min="0" step="1" value="30" inputmode="numeric" />
+                  </label>
+                </div>
+                <label>
+                  <span>Phút có bàn đầu tiên (0 nếu không có bàn)</span>
+                  <input id="firstGoalMinute" type="number" min="0" step="1" value="18" inputmode="numeric" />
+                </label>
+              </div>
+
+              <div class="market-fields hidden" data-market="goalBet">
+                <div class="team-grid">
+                  <label>
+                    <span>Loại cược bàn thắng</span>
+                    <select id="goalBetType">
+                      <option value="exactTotal">Tổng bàn thắng chính xác</option>
+                      <option value="oddEven">Chẵn/Lẻ tổng bàn</option>
+                      <option value="bothTeamsScore">Hai đội có bàn thắng</option>
+                      <option value="margin">Số bàn cách biệt</option>
+                      <option value="scoringTeam">Đội có ghi bàn</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Lựa chọn</span>
+                    <select id="goalPick">
+                      <option value="even">Chẵn</option>
+                      <option value="odd">Lẻ</option>
+                      <option value="yes">Có</option>
+                      <option value="no">Không</option>
+                    </select>
+                  </label>
+                </div>
+                <label id="goalExactField">
+                  <span>Tổng bàn chính xác</span>
+                  <input id="goalExact" type="number" min="0" step="1" value="3" inputmode="numeric" />
+                </label>
+                <div class="team-grid hidden" id="goalTeamFields">
+                  <label>
+                    <span>Đội lựa chọn</span>
+                    <select id="goalTeamPick">
+                      <option value="home">Đội nhà</option>
+                      <option value="away">Đội khách</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Cách biệt bàn</span>
+                    <input id="goalMargin" type="number" min="1" step="1" value="1" inputmode="numeric" />
+                  </label>
+                </div>
+              </div>
+
+              <div class="market-fields hidden" data-market="otherFootball">
+                <div class="team-grid">
+                  <label>
+                    <span>Loại cược khác</span>
+                    <select id="otherBetType">
+                      <option value="doubleChance">Double Chance</option>
+                      <option value="drawNoBet">Hòa được hoàn tiền</option>
+                      <option value="cleanSheetWin">Thắng không thủng lưới</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Lựa chọn</span>
+                    <select id="otherPick">
+                      <option value="homeDraw">Đội nhà hoặc Hòa</option>
+                      <option value="awayDraw">Đội khách hoặc Hòa</option>
+                      <option value="homeAway">Đội nhà hoặc Đội khách</option>
+                      <option value="home">Đội nhà</option>
+                      <option value="away">Đội khách</option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+
+              <div class="market-fields hidden" data-market="fastMarket">
+                <div class="team-grid">
+                  <label>
+                    <span>Sự kiện</span>
+                    <select id="fastEvent">
+                      <option value="bàn thắng">Bàn thắng</option>
+                      <option value="phạt góc">Phạt góc</option>
+                      <option value="thẻ phạt">Thẻ phạt</option>
+                      <option value="phạt đền">Phạt đền</option>
+                      <option value="ném biên">Ném biên</option>
+                      <option value="đá phạt">Đá phạt</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Khách chọn</span>
+                    <select id="fastPick">
+                      <option value="yes">Có</option>
+                      <option value="no">Không</option>
+                    </select>
+                  </label>
+                </div>
+                <div class="team-grid">
+                  <label>
+                    <span>Cửa thời gian</span>
+                    <select id="fastWindow">
+                      <option value="1">1 phút tiếp theo</option>
+                      <option value="5" selected>5 phút tiếp theo</option>
+                      <option value="10">10 phút tiếp theo</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Số sự kiện xảy ra</span>
+                    <input id="fastCount" type="number" min="0" step="1" value="0" inputmode="numeric" />
+                  </label>
+                </div>
+              </div>
+
+              <div class="market-fields hidden" data-market="oneXTwo">
+                <label>
+                  <span>Khách chọn</span>
+                  <select id="oneXTwoPick">
+                    <option value="home">Đội nhà thắng</option>
+                    <option value="draw">Hai đội hòa</option>
+                    <option value="away">Đội khách thắng</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="score-grid" id="finalScoreFields">
+                <label>
+                  <span id="homeScoreLabel">Tỷ số đội nhà cuối trận</span>
+                  <input id="homeScore" type="number" min="0" step="1" value="2" inputmode="numeric" />
+                </label>
+                <label>
+                  <span id="awayScoreLabel">Tỷ số đội khách cuối trận</span>
+                  <input id="awayScore" type="number" min="0" step="1" value="1" inputmode="numeric" />
+                </label>
+              </div>
+
+              <div class="input-grid">
+                <label>
+                  <span>Số điểm</span>
+                  <input id="stake" type="number" min="0" step="0.01" value="100" inputmode="decimal" />
+                </label>
+                <label>
+                  <span>Tỉ lệ cược</span>
+                  <input id="odds" type="number" step="0.01" value="0.95" inputmode="decimal" />
+                </label>
+                <label>
+                  <span>Kiểu tỉ lệ</span>
+                  <select id="oddsFormat">
+                    <option value="hongkong">Hồng Kông / CN</option>
+                    <option value="decimal">Decimal</option>
+                    <option value="malay">Malay / Indo</option>
+                    <option value="us">US</option>
+                  </select>
+                </label>
+              </div>
+            </form>
+
+            <aside class="tool-output">
+              <div class="validation-alert hidden" id="validationAlert" role="alert"></div>
+              <section class="result-card" aria-live="polite">
+                <p class="eyebrow">Kết toán</p>
+                <div class="result-main">
+                  <span id="resultLabel">Thắng</span>
+                  <strong id="pointsOutput">95 điểm</strong>
+                </div>
+                <p class="settlement-note" id="settlementNote">Everton chấp 0.75, thắng 1 bàn: thắng nửa.</p>
+                <dl class="result-detail">
+                  <div>
+                    <dt>Loại cược</dt>
+                    <dd id="selectedBetType">Cược 1X2</dd>
+                  </div>
+                  <div>
+                    <dt>Tiền thắng</dt>
+                    <dd id="winAmount">95 điểm</dd>
+                  </div>
+                  <div>
+                    <dt>Tiền thua</dt>
+                    <dd id="loseAmount">100 điểm</dd>
+                  </div>
+                </dl>
+                <section class="settlement-steps">
+                  <p class="eyebrow">Cách tính</p>
+                  <ol id="settlementSteps"></ol>
+                </section>
+              </section>
+
+              <section class="script-box">
+                <div class="script-heading">
+                  <div>
+                    <p class="eyebrow">Câu lệnh gửi khách</p>
+                    <h3>Phản hồi nhanh</h3>
+                  </div>
+                  <button class="copy-button" id="copyScript" type="button">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <rect width="14" height="14" x="8" y="8" rx="2" />
+                      <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+                    </svg>
+                    Sao chép
+                  </button>
+                </div>
+                <div class="reply-controls">
+                  <label>
+                    <span>Trạng thái vé</span>
+                    <select id="ticketStatus">
+                      <option value="settled">Đã kết toán</option>
+                      <option value="pending">Chưa kết toán</option>
+                    </select>
+                  </label>
+                  <label class="hidden" id="pendingReasonField">
+                    <span>Tình trạng trận đấu</span>
+                    <select id="pendingReason">
+                      <option value="inProgress">Trận đấu đang diễn ra</option>
+                      <option value="ended">Trận đã kết thúc, vé chưa kết toán</option>
+                    </select>
+                  </label>
+                </div>
+                <section class="google-check hidden" id="googleCheck">
+                  <div>
+                    <p class="eyebrow">Let me Google that for you</p>
+                    <h4>Tìm kiếm trận đấu</h4>
+                    <p id="googleSearchLabel">Tìm kết quả trực tiếp của trận đấu trên Google.</p>
+                  </div>
+                  <a class="search-button" id="googleSearchLink" href="#" target="_blank" rel="noreferrer">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <circle cx="11" cy="11" r="8" />
+                      <path d="m21 21-4.3-4.3" />
+                    </svg>
+                    Tìm trên Google
+                  </a>
+                </section>
+                <textarea id="scriptOutput" readonly rows="6"></textarea>
+              </section>
+            </aside>
+          </div>
+        </article>
+      </section>
+
+      <section class="tab-panel" id="guidePanel">
+        <article class="panel knowledge-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Tài liệu nội bộ</p>
+              <h2>Hướng Dẫn Các Kèo Thể Thao</h2>
+            </div>
+            <a class="icon-button" href="tai-lieu-bongkv.pdf" target="_blank" rel="noreferrer" aria-label="Mở PDF gốc" title="Mở PDF gốc">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M14 3h7v7" />
+                <path d="M10 14 21 3" />
+                <path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5" />
+              </svg>
+            </a>
+          </div>
+
+          <div class="knowledge-layout">
+            <aside class="section-sidebar" aria-label="Danh mục tài liệu">
+              <div class="search-wrap">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="11" cy="11" r="8" />
+                  <path d="m21 21-4.3-4.3" />
+                </svg>
+                <input id="contentSearch" type="search" placeholder="Tìm trong tài liệu" autocomplete="off" />
+              </div>
+              <nav id="sectionNav"></nav>
+            </aside>
+
+            <section class="content-view" id="contentView" aria-live="polite"></section>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite">Đã sao chép script</div>
+    <script src="app.js"></script>
+  </body>
+</html>
